@@ -43,6 +43,9 @@ public class DependentUserModel extends UserModel {
                     if (this.getAge() > 2 && friend.getAge() > 2) {
                         friend.getFriends().add(this.getUserName());
                     }
+                    else {
+                        System.out.println("Dependents under 2 years old cannot have friends");
+                    }
                 }
                 break;
             }

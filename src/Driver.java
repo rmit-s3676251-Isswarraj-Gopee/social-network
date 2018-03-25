@@ -3,6 +3,7 @@ import Model.DependentUserModel;
 import Model.UserModel;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Driver {
@@ -23,7 +24,14 @@ public class Driver {
         System.out.println("5. \tFind out the child of two parents");
         System.out.println("6. \tExit");
 
-        int option = scanner.nextInt();
+        int option = 0;
+        try {
+            option = scanner.nextInt();
+        }
+        catch (InputMismatchException exp){
+            System.out.println("Invalid Option -- You have not entered a number.");
+            mainMenu();
+        }
 
         if (option == 1) {
             listEveryone();
@@ -40,7 +48,14 @@ public class Driver {
             System.out.println("4. \tUpdate Profile");
             System.out.println("5. \tDelete Profile");
             scanner = new Scanner(System.in);
-            int subOption = scanner.nextInt();
+            int subOption = 0;
+            try {
+                subOption = scanner.nextInt();
+            }
+            catch (InputMismatchException exp){
+                System.out.println("Invalid Option -- You have not entered a number.");
+                mainMenu();
+            }
             if (subOption == 1){
                 viewProfile(selectedPerson);
             }
@@ -80,7 +95,14 @@ public class Driver {
                 String newUserName = scanner.nextLine();
                 System.out.println("Enter user's age:");
                 scanner = new Scanner(System.in);
-                int age = scanner.nextInt();
+                int age = 0;
+                try {
+                    age = scanner.nextInt();
+                }
+                catch (InputMismatchException exp){
+                    System.out.println("Invalid Option -- You have not entered a number.");
+                    mainMenu();
+                }
                 System.out.println("Enter user status:");
                 scanner = new Scanner(System.in);
                 String status = scanner.nextLine();
@@ -183,7 +205,14 @@ public class Driver {
         String userName = scanner.nextLine();
         System.out.println("Enter user's age:");
         scanner = new Scanner(System.in);
-        int age = scanner.nextInt();
+        int age = 0;
+        try {
+            age = scanner.nextInt();
+        }
+        catch (InputMismatchException exp){
+            System.out.println("Invalid Option -- You have not entered a number.");
+            mainMenu();
+        }
         System.out.println("Enter user status:");
         scanner = new Scanner(System.in);
         String status = scanner.nextLine();
@@ -202,9 +231,9 @@ public class Driver {
                     String parent1 = scanner.nextLine();
                     System.out.println("Enter parent 2 name:");
                     String parent2 = scanner.nextLine();
-                    for (int i = 0; i < this.users.size(); i++) {
-                        if (this.users.get(i).getUserName().equals(parent1)) {
-                            if (this.users.get(i).checkFriendship(parent2)){
+                    for (int j = 0; j < this.users.size(); j++) {
+                        if (this.users.get(j).getUserName().equals(parent1)) {
+                            if (this.users.get(j).checkFriendship(parent2)){
                                 String[] parents = {parent1, parent2};
                                 UserModel user = new DependentUserModel(userName, age, status, parents);
                                 users.add(user);
@@ -214,7 +243,7 @@ public class Driver {
                             }
                             break;
                         }
-                        else if (i == (this.users.size() - 1)){
+                        else if (j == (this.users.size() - 1)){
                             System.out.println("Error! " + parent1 + " does not exist!");
                         }
                     }
@@ -227,8 +256,7 @@ public class Driver {
     private String selectPerson() {
         System.out.println("Enter user name:");
         Scanner scanner = new Scanner(System.in);
-        String userName = scanner.nextLine();
-       return userName;
+        return scanner.nextLine();
     }
 
     private void viewProfile(String userName){
