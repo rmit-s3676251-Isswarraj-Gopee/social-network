@@ -48,7 +48,27 @@ public abstract class UserModel {
         this.friends = friends;
     }
 
-    public void addFriend(String friendName){
-        this.friends.add(friendName);
+    public boolean verifyFriendship(String userName1, String userName2, ArrayList<UserModel> users){
+        for (UserModel user : users){
+            if (user.getUserName().equals(userName1)) {
+                for (String friendName : user.getFriends()) {
+                    if (friendName.equals(userName2)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
+
+    public abstract void addFriend(String friendName, ArrayList<UserModel> users);
+
+//    public void addFriend(String friendName, ArrayList<UserModel> users){
+//        this.friends.add(friendName);
+//        for (UserModel friend : users){
+//            if (friend.getUserName().equals(friendName)){
+//                friend.friends.add(this.userName);
+//            }
+//        }
+//    }
 }
