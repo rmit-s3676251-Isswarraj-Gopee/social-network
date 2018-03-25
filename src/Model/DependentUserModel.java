@@ -44,6 +44,7 @@ public class DependentUserModel extends UserModel {
                         friend.getFriends().add(this.getUserName());
                     }
                 }
+                break;
             }
         }
     }

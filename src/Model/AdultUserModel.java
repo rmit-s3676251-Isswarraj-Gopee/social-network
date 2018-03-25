@@ -16,7 +16,7 @@ public class AdultUserModel extends UserModel implements IUser {
                 friend.getFriends().add(this.getUserName());
             }
             else{
-                System.out.println("Error! User does not exist!");
+                System.out.println("Error! " + friendName + " does not exist!");
             }
         }
     }
