@@ -106,9 +106,21 @@ public class Driver {
                 System.out.println("Enter user status:");
                 scanner = new Scanner(System.in);
                 String status = scanner.nextLine();
-                this.users.get(i).setUserName(newUserName);
-                this.users.get(i).setAge(age);
-                this.users.get(i).setStatus(status);
+
+                for (int i = 0; i < this.users.size(); i++) {
+                    if (this.users.get(i).getUserName().equals(newUserName)) {
+                        System.out.println("Username already exists!");
+                        break;
+                    }
+                    else if (i == (this.users.size() - 1)) {
+                        if (age >= 17) {
+                            this.users.get(i).setUserName(newUserName);
+                            this.users.get(i).setStatus(status);
+                            this.users.get(i).setAge(age);
+                        }
+                    }
+                    }
+
                 break;
             }
             else if (i == (users.size() - 1)){
