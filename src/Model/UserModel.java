@@ -1,5 +1,7 @@
 package Model;
 
+import Constant.ApplicationConstant;
+
 import java.util.ArrayList;
 
 public abstract class UserModel {
@@ -7,13 +9,13 @@ public abstract class UserModel {
     private int age;
     private String status;
 
-    private ArrayList<String> friends;
+    private ArrayList<ConnectionModel> connections;
 
     public UserModel(String userName, int age, String status){
         this.userName = userName;
         this.age = age;
         this.status = status;
-        this.friends = new ArrayList<>();
+        connections = new ArrayList<>();
     }
 
     public String getUserName() {
@@ -40,49 +42,33 @@ public abstract class UserModel {
         this.status = status;
     }
 
-    public ArrayList<String> getFriends() {
-        return friends;
+    public ArrayList<ConnectionModel> getConnections() {
+        return connections;
     }
 
-    public void setFriends(ArrayList<String> friends) {
-        this.friends = friends;
+    public void setConnections(ArrayList<ConnectionModel> connections) {
+        this.connections = connections;
     }
 
     public boolean checkFriendship(String friendName){
-//        for (UserModel user : users){
-//            if (user.getUserName().equals(userName1)) {
-//                for (String friendName : user.getFriends()) {
-//                    if (friendName.equals(userName2)){
-//                        return true;
-//                    }
-//                }
-//            }
-//        }
-//        return false;
-        for (String friend : this.getFriends()){
-            if (friend.equals(friendName))
+        for (ConnectionModel connnection : this.getConnections()){
+            if (connnection.getConnectionType().equals(ApplicationConstant.FRIEND) && connnection.getConnectionName().equals(friendName))
                 return true;
         }
         return false;
     }
 
-    public void removeFriend(String friendName){
-        for (String friend: friends){
-            if (friend.equals(friendName)){
-                friends.remove(friend);
+    public void removeConnection(String connectionName){
+        for (int i = 0; i < this.connections.size(); i++){
+            if (this.connections.get(i).getConnectionName().equals(connectionName)){
+                connections.remove(this.connections.get(i));
                 break;
+            }
+            else if (i == (this.connections.size() - 1)){
+                System.out.println("Error! " + userName + " is not a connection!");
             }
         }
     }
 
     public abstract void addFriend(String friendName, ArrayList<UserModel> users);
-
-//    public void addFriend(String friendName, ArrayList<UserModel> users){
-//        this.friends.add(friendName);
-//        for (UserModel friend : users){
-//            if (friend.getUserName().equals(friendName)){
-//                friend.friends.add(this.userName);
-//            }
-//        }
-//    }
 }
