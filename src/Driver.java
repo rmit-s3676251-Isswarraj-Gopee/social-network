@@ -1,3 +1,7 @@
+/**
+ * @author John Michael Tubera
+ */
+
 import Constant.ApplicationConstant;
 import Model.AdultUserModel;
 import Model.ConnectionModel;

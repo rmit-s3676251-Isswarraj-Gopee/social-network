@@ -1,3 +1,7 @@
+/**
+ * @author John Michael Tubera
+ */
+
 package Constant;
 
 public class ApplicationConstant {

@@ -1,3 +1,7 @@
+/**
+ * @author Isswarraj Gopee
+ */
+
 package Model;
 
 public class ConnectionModel {
