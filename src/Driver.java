@@ -26,13 +26,14 @@ public class Driver {
         System.out.println("5. \tFind out the child(ren) of a parent");
         System.out.println("6. \tExit");
 
-        int option = 0;
-        try {
-            option = scanner.nextInt();
-        } catch (InputMismatchException exp) {
-            System.out.println("Invalid Option -- You have not entered a number.");
-            mainMenu();
-        }
+        int option = getOption();
+//        try {
+//            option = scanner.nextInt();
+//        } catch (InputMismatchException exp) {
+//            System.out.println("Invalid Option -- You have not entered a number.");
+//            scanner = new Scanner(System.in);
+//            option = scanner.nextInt();
+//        }
 
         if (option == 1) {
             listEveryone();
@@ -47,13 +48,13 @@ public class Driver {
             System.out.println("5. \tUpdate Profile");
             System.out.println("6. \tDelete Profile");
             scanner = new Scanner(System.in);
-            int subOption = 0;
-            try {
-                subOption = scanner.nextInt();
-            } catch (InputMismatchException exp) {
-                System.out.println("Invalid Option -- You have not entered a number.");
-                mainMenu();
-            }
+            int subOption = getOption();
+//            try {
+//                subOption = scanner.nextInt();
+//            } catch (InputMismatchException exp) {
+//                System.out.println("Invalid Option -- You have not entered a number.");
+//                  mainMenu();
+//            }
             if (subOption == 1) {
                 viewProfile(selectedPerson);
             }
@@ -82,6 +83,19 @@ public class Driver {
             System.exit(0);
         }
 
+    }
+
+    private int getOption(){
+        int option = 0;
+        if (scanner.hasNextInt()){
+            return scanner.nextInt();
+        }
+        else{
+            System.out.println("Invalid Option -- You have not entered a number.");
+            System.out.println("Enter your option again.");
+            scanner.next();
+            return getOption();
+        }
     }
 
     private void addFriend(String userName) {
@@ -125,27 +139,27 @@ public class Driver {
                     } else if (j == (this.users.size() - 1)) {
                         if (age >= 17) {
                             if (!this.users.get(j).getUserName().equals(newUserName)) {
-                                this.users.get(j).setUserName(newUserName);
                                 for (UserModel user: this.users){
                                     for (ConnectionModel connection: user.getConnections())
                                     {
-                                        if (connection.getConnectionName().equals(this.users.get(j).getUserName())){
+                                        if (connection.getConnectionName().equals(this.users.get(i).getUserName())){
                                             connection.setConnectionName(newUserName);
                                         }
                                     }
                                 }
+                                this.users.get(i).setUserName(newUserName);
                             }
                             this.users.get(j).setStatus(status);
                             this.users.get(j).setAge(age);
                         }
                     }
                 }
-
                 break;
             } else if (i == (users.size() - 1)) {
                 System.out.println("Error! " + userName + " does not exist!");
             }
         }
+        mainMenu();
     }
 
     private void checkFriendship(String userName) {
@@ -338,7 +352,7 @@ public class Driver {
                     for (UserModel user: this.users){
                         for (int j = 0; j < user.getConnections().size(); j++)
                         {
-                            if (user.getConnections().get(i).getConnectionName().equals(userName) && user.getConnections().get(i).getConnectionType().equals(ApplicationConstant.PARENT)){
+                            if (user.getConnections().get(j).getConnectionName().equals(userName) && user.getConnections().get(j).getConnectionType().equals(ApplicationConstant.PARENT)){
                                 canDelete = false;
                                 System.out.println("Error! Cannot delete this user! Is the parent to child.");
                                 break;
@@ -349,8 +363,8 @@ public class Driver {
                         for (UserModel user: this.users){
                             for (int j = 0; j < user.getConnections().size(); j++)
                             {
-                                if (user.getConnections().get(i).getConnectionName().equals(userName)){
-                                    user.getConnections().remove(user.getConnections().get(i));
+                                if (user.getConnections().get(j).getConnectionName().equals(userName)){
+                                    user.getConnections().remove(user.getConnections().get(j));
                                 }
                             }
                         }
