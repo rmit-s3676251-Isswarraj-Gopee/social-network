@@ -27,13 +27,6 @@ public class Driver {
         System.out.println("6. \tExit");
 
         int option = getOption();
-//        try {
-//            option = scanner.nextInt();
-//        } catch (InputMismatchException exp) {
-//            System.out.println("Invalid Option -- You have not entered a number.");
-//            scanner = new Scanner(System.in);
-//            option = scanner.nextInt();
-//        }
 
         if (option == 1) {
             listEveryone();
@@ -49,12 +42,7 @@ public class Driver {
             System.out.println("6. \tDelete Profile");
             scanner = new Scanner(System.in);
             int subOption = getOption();
-//            try {
-//                subOption = scanner.nextInt();
-//            } catch (InputMismatchException exp) {
-//                System.out.println("Invalid Option -- You have not entered a number.");
-//                  mainMenu();
-//            }
+
             if (subOption == 1) {
                 viewProfile(selectedPerson);
             }
@@ -73,6 +61,10 @@ public class Driver {
             if (subOption == 6) {
                 deleteProfile(selectedPerson);
             }
+            else {
+                System.out.println("Invalid Option -- You have not entered a number.");
+                mainMenu();
+            }
         } else if (option == 3) {
             addPerson();
         } else if (option == 4) {
@@ -82,15 +74,18 @@ public class Driver {
         } else if (option == 6) {
             System.exit(0);
         }
+        else{
+            System.out.println("Invalid Option -- You have not entered a number.");
+            mainMenu();
+        }
 
     }
 
-    private int getOption(){
+    private int getOption() {
         int option = 0;
-        if (scanner.hasNextInt()){
+        if (scanner.hasNextInt()) {
             return scanner.nextInt();
-        }
-        else{
+        } else {
             System.out.println("Invalid Option -- You have not entered a number.");
             System.out.println("Enter your option again.");
             scanner.next();
@@ -104,7 +99,14 @@ public class Driver {
         String friendName = scanner.nextLine();
         for (int i = 0; i < this.users.size(); i++) {
             if (this.users.get(i).getUserName().equals(userName)) {
-                this.users.get(i).addFriend(friendName, this.users);
+                for (int j = 0; j < this.users.size(); j++) {
+                    if (this.users.get(j).getUserName().equals(friendName)) {
+                        this.users.get(i).addFriend(this.users.get(j));
+                        break;
+                    } else if (j == (users.size() - 1)) {
+                        System.out.println("Error! " + userName + " does not exist!");
+                    }
+                }
                 break;
             } else if (i == (users.size() - 1)) {
                 System.out.println("Error! " + userName + " does not exist!");
@@ -139,10 +141,9 @@ public class Driver {
                     } else if (j == (this.users.size() - 1)) {
                         if (age >= 17) {
                             if (!this.users.get(j).getUserName().equals(newUserName)) {
-                                for (UserModel user: this.users){
-                                    for (ConnectionModel connection: user.getConnections())
-                                    {
-                                        if (connection.getConnectionName().equals(this.users.get(i).getUserName())){
+                                for (UserModel user : this.users) {
+                                    for (ConnectionModel connection : user.getConnections()) {
+                                        if (connection.getConnectionName().equals(this.users.get(i).getUserName())) {
                                             connection.setConnectionName(newUserName);
                                         }
                                     }
@@ -347,30 +348,28 @@ public class Driver {
     private void deleteProfile(String userName) {
         for (int i = 0; i < this.users.size(); i++) {
             if (this.users.get(i).getUserName().equals(userName)) {
-                    this.users.get(i).setUserName(userName);
-                    Boolean canDelete = true;
-                    for (UserModel user: this.users){
-                        for (int j = 0; j < user.getConnections().size(); j++)
-                        {
-                            if (user.getConnections().get(j).getConnectionName().equals(userName) && user.getConnections().get(j).getConnectionType().equals(ApplicationConstant.PARENT)){
-                                canDelete = false;
-                                System.out.println("Error! Cannot delete this user! Is the parent to child.");
-                                break;
+                this.users.get(i).setUserName(userName);
+                Boolean canDelete = true;
+                for (UserModel user : this.users) {
+                    for (int j = 0; j < user.getConnections().size(); j++) {
+                        if (user.getConnections().get(j).getConnectionName().equals(userName) && user.getConnections().get(j).getConnectionType().equals(ApplicationConstant.PARENT)) {
+                            canDelete = false;
+                            System.out.println("Error! Cannot delete this user! Is the parent to child.");
+                            break;
+                        }
+                    }
+                }
+                if (canDelete) {
+                    for (UserModel user : this.users) {
+                        for (int j = 0; j < user.getConnections().size(); j++) {
+                            if (user.getConnections().get(j).getConnectionName().equals(userName)) {
+                                user.getConnections().remove(user.getConnections().get(j));
                             }
                         }
                     }
-                    if (canDelete){
-                        for (UserModel user: this.users){
-                            for (int j = 0; j < user.getConnections().size(); j++)
-                            {
-                                if (user.getConnections().get(j).getConnectionName().equals(userName)){
-                                    user.getConnections().remove(user.getConnections().get(j));
-                                }
-                            }
-                        }
-                        this.users.remove(this.users.get(i));
-                    }
-                    break;
+                    this.users.remove(this.users.get(i));
+                }
+                break;
             } else if (i == (users.size() - 1)) {
                 System.out.println("Error! " + userName + " does not exist!");
             }

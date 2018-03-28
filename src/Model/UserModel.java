@@ -70,5 +70,6 @@ public abstract class UserModel {
         }
     }
 
-    public abstract void addFriend(String friendName, ArrayList<UserModel> users);
+    public abstract void addFriend(UserModel friend);
+
 }
